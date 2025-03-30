@@ -10,3 +10,9 @@ terraform {
 provider "aws" {
   region = "eu-west-1"
 }
+
+provider "aws" {
+  alias = "route53"
+  region = "us-east-1"
+  # Add here Role to assume if you use some other account
+}
