@@ -27,14 +27,14 @@ data "aws_ecr_authorization_token" "token" {
 }
 
 provider "docker" {
-    registry_auth {
-        address = split("/", aws_ecr_repository.application_repository.repository_url)[0]
-        username = data.aws_ecr_authorization_token.token.user_name
-        password = data.aws_ecr_authorization_token.token.password
-    }
+  registry_auth {
+    address  = split("/", aws_ecr_repository.application_repository.repository_url)[0]
+    username = data.aws_ecr_authorization_token.token.user_name
+    password = data.aws_ecr_authorization_token.token.password
+  }
 }
 
 resource "docker_registry_image" "application_image" {
-  name = "${aws_ecr_repository.application_repository.repository_url}:latest"
+  name          = "${aws_ecr_repository.application_repository.repository_url}:latest"
   keep_remotely = true
 }
