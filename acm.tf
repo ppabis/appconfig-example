@@ -1,8 +1,3 @@
-data "aws_route53_zone" "parent_domain" {
-  name     = var.domain_name
-  provider = aws.route53
-}
-
 module "acm" {
   source  = "terraform-aws-modules/acm/aws"
   version = "~> 4.0"
