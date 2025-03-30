@@ -1,21 +1,6 @@
 # This file is maintained automatically by "tofu init".
 # Manual edits may be lost in future updates.
 
-provider "registry.opentofu.org/docker/docker" {
-  version     = "0.4.1"
-  constraints = ">= 0.0.0"
-  hashes = [
-    "h1:5CHNvUa8qRnMQf9KA9So6xfSFZp7HodYESlnFMKT3Ac=",
-    "zh:0e24df9bf1a2c603e013b8530495fb3f1ca0f9a47bf1fcdafa2b21b8e479dc2e",
-    "zh:114fd3696d534eb7714bbe4451712316e4ceee5345f026ff88ecfbcff589da61",
-    "zh:6a6aca5f3af47a0c1119bbb75ada4db636d6fa02f74980449c4fc2bf1b5ff251",
-    "zh:6ddf3563245800d7a580485d6f3395a0dd568545cc22369aed5ba4cd1dd56e60",
-    "zh:d1c800ad01f1e2ded8f65955bc3e58c2bbe6f17e6f756079cabbdc314049e31b",
-    "zh:f26e0763dbe6a6b2195c94b44696f2110f7f55433dc142839be16b9697fa5597",
-    "zh:fb150a77d2bf80a16af8e68cd563c0af27e7749e6690f7003c3083e0b5a68507",
-  ]
-}
-
 provider "registry.opentofu.org/hashicorp/aws" {
   version     = "5.93.0"
   constraints = "~> 5.0"
@@ -49,5 +34,27 @@ provider "registry.opentofu.org/hashicorp/awscc" {
     "zh:dd7fdb79f06eba6cacaa7dc58938d2faa51ca50c0a7b2659b10fa1c8a98c73bc",
     "zh:e885f00b393d367d8366bc155dee50a0834e55ee8282ce435051891f7c5102ad",
     "zh:f436071c937910749e2dc96aae55fa7ff53519c50422e6a025a169cde0a3a0cd",
+  ]
+}
+
+provider "registry.opentofu.org/kreuzwerker/docker" {
+  version     = "3.0.2"
+  constraints = "~> 3.0"
+  hashes = [
+    "h1:XjdpVL61KtTsuPE8swok3GY8A+Bu3TZs8T2DOEpyiXo=",
+    "zh:15b0a2b2b563d8d40f62f83057d91acb02cd0096f207488d8b4298a59203d64f",
+    "zh:23d919de139f7cd5ebfd2ff1b94e6d9913f0977fcfc2ca02e1573be53e269f95",
+    "zh:38081b3fe317c7e9555b2aaad325ad3fa516a886d2dfa8605ae6a809c1072138",
+    "zh:4a9c5065b178082f79ad8160243369c185214d874ff5048556d48d3edd03c4da",
+    "zh:5438ef6afe057945f28bce43d76c4401254073de01a774760169ac1058830ac2",
+    "zh:60b7fadc287166e5c9873dfe53a7976d98244979e0ab66428ea0dea1ebf33e06",
+    "zh:61c5ec1cb94e4c4a4fb1e4a24576d5f39a955f09afb17dab982de62b70a9bdd1",
+    "zh:a38fe9016ace5f911ab00c88e64b156ebbbbfb72a51a44da3c13d442cd214710",
+    "zh:c2c4d2b1fd9ebb291c57f524b3bf9d0994ff3e815c0cd9c9bcb87166dc687005",
+    "zh:d567bb8ce483ab2cf0602e07eae57027a1a53994aba470fa76095912a505533d",
+    "zh:e83bf05ab6a19dd8c43547ce9a8a511f8c331a124d11ac64687c764ab9d5a792",
+    "zh:e90c934b5cd65516fbcc454c89a150bfa726e7cf1fe749790c7480bbeb19d387",
+    "zh:f05f167d2eaf913045d8e7b88c13757e3cf595dd5cd333057fdafc7c4b7fed62",
+    "zh:fcc9c1cea5ce85e8bcb593862e699a881bd36dffd29e2e367f82d15368659c3d",
   ]
 }
