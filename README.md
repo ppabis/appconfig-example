@@ -15,3 +15,5 @@ The SSL certificate is issued by ACM, validated by DNS ownership in module
 Loadbalancer is created using `terraform-aws-modules/alb/aws` with a single
 target group, HTTPS listener with above certificate, redirect HTTP->HTTPS and
 open to the wide internet [`alb.tf`](alb.tf).
+
+Route53 domain of the loadbalancer is defined in [`dns.tf`](dns.tf).
