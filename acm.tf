@@ -1,5 +1,5 @@
 data "aws_route53_zone" "parent_domain" {
-  name = var.domain_name
+  name     = var.domain_name
   provider = aws.route53
 }
 
@@ -7,7 +7,7 @@ module "acm" {
   source  = "terraform-aws-modules/acm/aws"
   version = "~> 4.0"
 
-  domain_name  = "${var.subdomain_name}.${var.domain_name}"
+  domain_name = "${var.subdomain_name}.${var.domain_name}"
 
   validation_method = "DNS"
 
@@ -16,8 +16,8 @@ module "acm" {
 }
 
 module "route53_records" {
-  source  = "terraform-aws-modules/acm/aws"
-  version = "~> 4.0"
+  source    = "terraform-aws-modules/acm/aws"
+  version   = "~> 4.0"
   providers = { aws = aws.route53 }
 
   create_certificate          = false
