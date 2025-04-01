@@ -10,7 +10,7 @@ resource "aws_ecr_repository" "application_repository" {
 ########################################################
 resource "docker_image" "application_image" {
   depends_on   = [aws_ecr_repository.application_repository]
-  name         = "${aws_ecr_repository.application_repository.repository_url}:latest"
+  name         = "${aws_ecr_repository.application_repository.repository_url}:${var.image_tag}"
   keep_locally = true
 
   build {
@@ -35,6 +35,7 @@ provider "docker" {
 }
 
 resource "docker_registry_image" "application_image" {
-  name          = "${aws_ecr_repository.application_repository.repository_url}:latest"
+  depends_on = [ docker_image.application_image ]
+  name          = "${aws_ecr_repository.application_repository.repository_url}:${var.image_tag}"
   keep_remotely = true
 }

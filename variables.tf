@@ -15,3 +15,9 @@ variable "subdomain_name" {
   type        = string
   default     = "app"
 }
+
+variable "image_tag" {
+  description = "The tag to use for the image"
+  type        = string
+  default     = "01"
+}
