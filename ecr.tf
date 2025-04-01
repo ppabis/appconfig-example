@@ -14,7 +14,7 @@ resource "docker_image" "application_image" {
   keep_locally = true
 
   build {
-    context    = "."
+    context    = "app"
     dockerfile = "Dockerfile"
   }
 }
