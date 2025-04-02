@@ -37,5 +37,30 @@ resource "aws_s3_bucket_object" "environment_file" {
   EOF
 }
 
+data "aws_iam_policy_document" "policy" {
+    statement {
+      actions = [
+        "s3:GetObject",
+        "s3:GetObjectAcl",
+        "s3:GetObjectVersion",
+        "s3:GetObjectVersionAcl", 
+      ]
+      resources = [
+        "${aws_s3_bucket.s3_bucket.arn}/*",
+      ]
+      principals {
+        type = "AWS"
+        identifiers = [
+          module.ecs.services["appconfig-demo"].task_exec_iam_role_arn,
+          module.ecs.services["appconfig-demo"].tasks_iam_role_arn,
+        ]
+      }
+    }
+}
+
+resource "aws_s3_bucket_policy" "policy" {
+  bucket = aws_s3_bucket.s3_bucket.bucket
+  policy = data.aws_iam_policy_document.policy.json
+}
 
 
