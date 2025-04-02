@@ -65,6 +65,26 @@ module "ecs" {
               protocol      = "tcp"
             }
           ]
+          secrets = [
+            {
+              name  = "SSM_PARAMETER"
+              valueFrom = aws_ssm_parameter.ssm_parameter.arn
+            },
+            {
+              name  = "SSM_SECRET_PARAMETER"
+              valueFrom = aws_secretsmanager_secret.ssm_secret_parameter.arn
+            },
+            {
+              name  = "SECRETS_MANAGER_PARAMETER"
+              valueFrom = aws_secretsmanager_secret_version.ssm_secret_parameter_version.arn
+            }
+          ]
+          environment_files = [
+            {
+              type = "s3"
+              value = "${aws_s3_bucket.s3_bucket.arn}/${aws_s3_bucket_object.environment_file.key}"
+            }
+          ]
         }
       }
 
