@@ -37,6 +37,7 @@ async function refreshValues() {
         document.getElementById('ssm_secret_parameter').textContent = data.ssm_secret_parameter;
         document.getElementById('s3_env_parameter').textContent = data.s3_env_parameter;
         document.getElementById('secrets_manager_parameter').textContent = data.secrets_manager_parameter;
+        document.getElementById('config').textContent = data.config;
         document.getElementById('lastRefresh').firstElementChild.textContent = `Last refreshed: ${data.last_refresh}`;
     } catch (error) {
         console.error('Error refreshing values:', error);
