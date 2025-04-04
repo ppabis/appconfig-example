@@ -19,7 +19,7 @@ resource "aws_appconfig_hosted_configuration_version" "live_main" {
     configuration_profile_id = aws_appconfig_configuration_profile.prof.configuration_profile_id
     content_type = "application/yaml"
     content = <<-EOF
-    background: '#005433'
+    background: '#1145cd'
     EOF
 }
 
