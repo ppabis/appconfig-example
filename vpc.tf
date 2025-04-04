@@ -27,3 +27,15 @@ module "vpc_endpoints" {
   subnet_ids                  = values(module.vpc.private_subnet_attributes_by_az)[*].id
   route_table_ids             = values(module.vpc.rt_attributes_by_type_by_az["private"])[*].id
 }
+
+data "aws_region" "current" {}
+
+resource "aws_vpc_endpoint" "appconfig" {
+  for_each = tomap({"appconfig": "appconfig", "appconfigdata": "appconfigdata"})
+  vpc_id = module.vpc.vpc_attributes.id
+  service_name = "com.amazonaws.${data.aws_region.current.name}.${each.value}"
+  vpc_endpoint_type = "Interface"
+  private_dns_enabled = true
+  security_group_ids = module.vpc_endpoints.security_group_ids
+  subnet_ids = values(module.vpc.private_subnet_attributes_by_az)[*].id
+}
