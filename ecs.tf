@@ -101,3 +101,25 @@ module "ecs" {
     } # end of appconfig-demo =
   } # end of services
 } # end of module.ecs
+
+
+########################################################
+# AppConfig Agent IAM Permissions
+########################################################
+data "aws_iam_policy_document" "appconfig_agent_policy" {
+  statement {
+    actions = [
+      "appconfig:StartConfigurationSession",
+      "appconfig:GetLatestConfiguration",
+      "appconfig:GetConfiguration",
+      "appconfig:GetConfigurationProfile",
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy" "appconfig_agent_policy" {
+  name = "AppConfigECSAgentPolicy"
+  policy = data.aws_iam_policy_document.appconfig_agent_policy.json
+  role = module.ecs.services["appconfig-demo"].tasks_iam_role_name
+}
