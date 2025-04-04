@@ -88,7 +88,7 @@ module "ecs" {
         } # end of app =
 
         agent = {
-          image = "${aws_ecr_repository.appconfig_agent_repository.repository_url}:${var.image_tag}"
+          image = "${aws_ecr_repository.appconfig_agent_repository.repository_url}:latest"
           essential = true
           port_mappings = [
             {
