@@ -85,9 +85,19 @@ module "ecs" {
               value = "${aws_s3_bucket.s3_bucket.arn}/${aws_s3_bucket_object.environment_file.key}"
             }
           ]
-        }
-      }
+        } # end of app =
 
-    }
-  }
-}
+        agent = {
+          image = "${aws_ecr_repository.appconfig_agent_repository.repository_url}:${var.image_tag}"
+          essential = true
+          port_mappings = [
+            {
+              name = "agent"
+              containerPort = 2772
+            }
+          ]
+        } # end of agent =
+      } # end of container_definitions
+    } # end of appconfig-demo =
+  } # end of services
+} # end of module.ecs
