@@ -24,7 +24,7 @@ module "vpc_endpoints" {
   vpc_id                      = module.vpc.vpc_attributes.id
   enabled_interface_endpoints = ["ecr_api", "ecr_dkr", "logs", "ssm", "secretsmanager"]
   enabled_gateway_endpoints   = ["s3"]
-  subnet_ids                  = values(module.vpc.private_subnet_attributes_by_az)[*].id
+  subnet_ids                  = [values(module.vpc.private_subnet_attributes_by_az)[1].id]
   route_table_ids             = values(module.vpc.rt_attributes_by_type_by_az["private"])[*].id
 }
 
@@ -37,5 +37,5 @@ resource "aws_vpc_endpoint" "appconfig" {
   vpc_endpoint_type = "Interface"
   private_dns_enabled = true
   security_group_ids = module.vpc_endpoints.security_group_ids
-  subnet_ids = values(module.vpc.private_subnet_attributes_by_az)[*].id
+  subnet_ids = [values(module.vpc.private_subnet_attributes_by_az)[0].id]
 }
