@@ -35,7 +35,7 @@ provider "docker" {
 }
 
 resource "docker_registry_image" "application_image" {
-  depends_on = [ docker_image.application_image ]
+  depends_on    = [docker_image.application_image]
   name          = "${aws_ecr_repository.application_repository.repository_url}:${var.image_tag}"
   keep_remotely = true
 }
@@ -57,7 +57,7 @@ resource "docker_tag" "appconfig_agent_image_tag" {
 }
 
 resource "docker_registry_image" "appconfig_agent_image" {
-  depends_on = [ docker_tag.appconfig_agent_image_tag ]
+  depends_on    = [docker_tag.appconfig_agent_image_tag]
   name          = "${aws_ecr_repository.appconfig_agent_repository.repository_url}:latest"
   keep_remotely = true
 }

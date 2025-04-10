@@ -50,7 +50,7 @@ module "ecs" {
       }
 
       runtime_platform = {
-        cpu_architecture = "ARM64"
+        cpu_architecture        = "ARM64"
         operating_system_family = "LINUX"
       }
 
@@ -67,40 +67,40 @@ module "ecs" {
           ]
           secrets = [
             {
-              name  = "SSM_PARAMETER"
+              name      = "SSM_PARAMETER"
               valueFrom = aws_ssm_parameter.ssm_parameter.arn
             },
             {
-              name  = "SSM_SECRET_PARAMETER"
+              name      = "SSM_SECRET_PARAMETER"
               valueFrom = aws_secretsmanager_secret.ssm_secret_parameter.arn
             },
             {
-              name  = "SECRETS_MANAGER_PARAMETER"
+              name      = "SECRETS_MANAGER_PARAMETER"
               valueFrom = aws_secretsmanager_secret_version.ssm_secret_parameter_version.arn
             }
           ]
           environment_files = [
             {
-              type = "s3"
+              type  = "s3"
               value = "${aws_s3_bucket.s3_bucket.arn}/${aws_s3_bucket_object.environment_file.key}"
             }
           ]
         } # end of app =
 
         agent = {
-          image = "${aws_ecr_repository.appconfig_agent_repository.repository_url}:latest"
+          image     = "${aws_ecr_repository.appconfig_agent_repository.repository_url}:latest"
           essential = true
           port_mappings = [
             {
-              name = "agent"
+              name          = "agent"
               containerPort = 2772
             }
           ]
         } # end of agent =
-      } # end of container_definitions
-    } # end of appconfig-demo =
-  } # end of services
-} # end of module.ecs
+      }   # end of container_definitions
+    }     # end of appconfig-demo =
+  }       # end of services
+}         # end of module.ecs
 
 
 ########################################################
@@ -119,7 +119,7 @@ data "aws_iam_policy_document" "appconfig_agent_policy" {
 }
 
 resource "aws_iam_role_policy" "appconfig_agent_policy" {
-  name = "AppConfigECSAgentPolicy"
+  name   = "AppConfigECSAgentPolicy"
   policy = data.aws_iam_policy_document.appconfig_agent_policy.json
-  role = module.ecs.services["appconfig-demo"].tasks_iam_role_name
+  role   = module.ecs.services["appconfig-demo"].tasks_iam_role_name
 }
