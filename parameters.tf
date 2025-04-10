@@ -26,7 +26,8 @@ resource "random_string" "random_string" {
 }
 
 resource "aws_s3_bucket" "s3_bucket" {
-  bucket = "s3-bucket-${random_string.random_string.result}"
+  bucket        = "s3-bucket-${random_string.random_string.result}"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_object" "environment_file" {
@@ -38,24 +39,24 @@ resource "aws_s3_bucket_object" "environment_file" {
 }
 
 data "aws_iam_policy_document" "policy" {
-    statement {
-      actions = [
-        "s3:GetObject",
-        "s3:GetObjectAcl",
-        "s3:GetObjectVersion",
-        "s3:GetObjectVersionAcl", 
+  statement {
+    actions = [
+      "s3:GetObject",
+      "s3:GetObjectAcl",
+      "s3:GetObjectVersion",
+      "s3:GetObjectVersionAcl",
+    ]
+    resources = [
+      "${aws_s3_bucket.s3_bucket.arn}/*",
+    ]
+    principals {
+      type = "AWS"
+      identifiers = [
+        module.ecs.services["appconfig-demo"].task_exec_iam_role_arn,
+        module.ecs.services["appconfig-demo"].tasks_iam_role_arn,
       ]
-      resources = [
-        "${aws_s3_bucket.s3_bucket.arn}/*",
-      ]
-      principals {
-        type = "AWS"
-        identifiers = [
-          module.ecs.services["appconfig-demo"].task_exec_iam_role_arn,
-          module.ecs.services["appconfig-demo"].tasks_iam_role_arn,
-        ]
-      }
     }
+  }
 }
 
 resource "aws_s3_bucket_policy" "policy" {
