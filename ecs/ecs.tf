@@ -20,7 +20,7 @@ module "ecs" {
       cpu        = 512
       memory     = 1024
       name       = "appconfig-demo"
-      subnet_ids = values(module.vpc.private_subnet_attributes_by_az)[*].id
+      subnet_ids = data.aws_subnets.private_subnets.ids
 
       security_group_rules = {
         alb_ingress_8080 = {
@@ -29,7 +29,7 @@ module "ecs" {
           to_port                  = 8080
           protocol                 = "tcp"
           description              = "Service port"
-          source_security_group_id = module.alb.security_group_id
+          source_security_group_id = data.aws_security_group.security_group.id
         }
 
         egress_all = {
@@ -43,7 +43,7 @@ module "ecs" {
 
       load_balancer = {
         service = {
-          target_group_arn = module.alb.target_groups["ecs-service"].arn
+          target_group_arn = data.aws_alb_target_group.target_group.arn
           container_name   = "app"
           container_port   = 8080
         }
@@ -56,7 +56,7 @@ module "ecs" {
 
       container_definitions = {
         app = {
-          image     = "${aws_ecr_repository.application_repository.repository_url}:${var.image_tag}"
+          image     = "${data.aws_ecr_repository.application_repository.repository_url}:${var.image_tag}"
           essential = true
           port_mappings = [
             {
@@ -68,27 +68,27 @@ module "ecs" {
           secrets = [
             {
               name      = "SSM_PARAMETER"
-              valueFrom = aws_ssm_parameter.ssm_parameter.arn
+              valueFrom = data.aws_ssm_parameter.ssm_parameter.arn
             },
             {
               name      = "SSM_SECRET_PARAMETER"
-              valueFrom = aws_secretsmanager_secret.ssm_secret_parameter.arn
+              valueFrom = data.aws_ssm_parameter.secure_string_parameter.arn
             },
             {
               name      = "SECRETS_MANAGER_PARAMETER"
-              valueFrom = aws_secretsmanager_secret_version.ssm_secret_parameter_version.arn
+              valueFrom = data.aws_secretsmanager_secret.secret.arn
             }
           ]
           environment_files = [
             {
               type  = "s3"
-              value = "${aws_s3_bucket.s3_bucket.arn}/${aws_s3_bucket_object.environment_file.key}"
+              value = var.env_file_s3_path
             }
           ]
         } # end of app =
 
         agent = {
-          image     = "${aws_ecr_repository.appconfig_agent_repository.repository_url}:latest"
+          image     = "${data.aws_ecr_repository.appconfig_agent_repository.repository_url}:latest"
           essential = true
           port_mappings = [
             {
