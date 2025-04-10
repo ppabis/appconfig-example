@@ -3,6 +3,7 @@ resource "aws_ecr_repository" "application_repository" {
   tags = {
     Name = "appconfig-demo"
   }
+  force_delete = true
 }
 
 ########################################################
@@ -44,7 +45,8 @@ resource "docker_registry_image" "application_image" {
 # Repository for the AppConfig Agent to be pulled via VPC Endpoint
 ########################################################
 resource "aws_ecr_repository" "appconfig_agent_repository" {
-  name = "appconfig-agent"
+  name         = "appconfig-agent"
+  force_delete = true
 }
 
 resource "docker_image" "appconfig_agent_image" {
