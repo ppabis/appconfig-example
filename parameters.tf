@@ -38,6 +38,8 @@ resource "aws_s3_bucket_object" "environment_file" {
   EOF
 }
 
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_policy_document" "policy" {
   statement {
     actions = [
@@ -50,11 +52,8 @@ data "aws_iam_policy_document" "policy" {
       "${aws_s3_bucket.s3_bucket.arn}/*",
     ]
     principals {
-      type = "AWS"
-      identifiers = [
-        module.ecs.services["appconfig-demo"].task_exec_iam_role_arn,
-        module.ecs.services["appconfig-demo"].tasks_iam_role_arn,
-      ]
+      type        = "AWS"
+      identifiers = [data.aws_caller_identity.current.account_id]
     }
   }
 }
