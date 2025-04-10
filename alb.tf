@@ -1,9 +1,11 @@
 module "alb" {
   source = "terraform-aws-modules/alb/aws"
 
-  name    = replace("alb-${var.subdomain_name}.${var.domain_name}", ".", "-")
-  vpc_id  = module.vpc.vpc_attributes.id
-  subnets = values(module.vpc.public_subnet_attributes_by_az)[*].id
+  name                       = replace("alb-${var.subdomain_name}.${var.domain_name}", ".", "-")
+  vpc_id                     = module.vpc.vpc_attributes.id
+  subnets                    = values(module.vpc.public_subnet_attributes_by_az)[*].id
+  enable_deletion_protection = false
+  depends_on                 = [module.vpc]
 
   # Security Group
   security_group_ingress_rules = {
@@ -53,7 +55,7 @@ module "alb" {
 
   target_groups = {
     ecs-service = {
-      name_prefix          = "h1"
+      name                 = "appconfig-demo"
       protocol             = "HTTP"
       port                 = 8080
       target_type          = "ip"
