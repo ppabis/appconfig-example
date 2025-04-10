@@ -24,12 +24,12 @@ resource "docker_image" "application_image" {
 # Pushing the image to ECR
 ########################################################
 data "aws_ecr_authorization_token" "token" {
-  registry_id = aws_ecr_repository.application_repository.registry_id
+  registry_id = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${data.aws_region.current.name}.amazonaws.com"
 }
 
 provider "docker" {
   registry_auth {
-    address  = split("/", aws_ecr_repository.application_repository.repository_url)[0]
+    address  = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${data.aws_region.current.name}.amazonaws.com"
     username = data.aws_ecr_authorization_token.token.user_name
     password = data.aws_ecr_authorization_token.token.password
   }
