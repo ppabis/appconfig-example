@@ -43,7 +43,11 @@ data "aws_ecr_repository" "application_repository" {
 
 data "aws_secretsmanager_secrets" "secrets" {
   filter {
-    name = "tag:Purpose"
+    name = "tag-key"
+    values = ["Purpose"]
+  }
+  filter {
+    name = "tag-value"
     values = ["appconfig-demo"]
   }
 }

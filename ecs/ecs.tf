@@ -82,7 +82,7 @@ module "ecs" {
             },
             {
               name      = "SECRETS_MANAGER_PARAMETER"
-              valueFrom = data.aws_secretsmanager_secrets.secrets[0].arn
+              valueFrom = tolist(data.aws_secretsmanager_secrets.secrets.arns)[0]
             }
           ]
           environment_files = [
