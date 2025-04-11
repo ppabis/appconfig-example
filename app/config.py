@@ -33,3 +33,10 @@ def get_config():
             return req.text
     else:
         return f"None, Status code: {req.status_code} {req.text}"
+    
+def get_feature_flag(key, default):
+    req = requests.get(f"http://localhost:2772/applications/appconfig-demo/environments/live/configurations/featureflags?flag={key}")
+    if req.status_code >= 200 and req.status_code < 300:
+        return req.json()
+    else:
+        return default
