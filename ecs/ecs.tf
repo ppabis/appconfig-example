@@ -13,14 +13,20 @@ module "ecs" {
     }
   ]
 
+  task_exec_iam_role_name            = "appconfig-demo-task-exec-role"
+  task_exec_iam_role_use_name_prefix = false
+
+
   cloudwatch_log_group_retention_in_days = 14
 
   services = {
     appconfig-demo = {
-      cpu        = 512
-      memory     = 1024
-      name       = "appconfig-demo"
-      subnet_ids = data.aws_subnets.private_subnets.ids
+      cpu                      = 512
+      memory                   = 1024
+      name                     = "appconfig-demo"
+      subnet_ids               = data.aws_subnets.private_subnets.ids
+      iam_role_name            = "appconfig-demo-task-role"
+      iam_role_use_name_prefix = false
 
       security_group_rules = {
         alb_ingress_8080 = {
@@ -76,13 +82,13 @@ module "ecs" {
             },
             {
               name      = "SECRETS_MANAGER_PARAMETER"
-              valueFrom = data.aws_secretsmanager_secret.secret.arn
+              valueFrom = data.aws_secretsmanager_secrets.secrets[0].arn
             }
           ]
           environment_files = [
             {
               type  = "s3"
-              value = var.env_file_s3_path
+              value = var.env_file_s3_arn
             }
           ]
         } # end of app =
