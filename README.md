@@ -17,3 +17,10 @@ target group, HTTPS listener with above certificate, redirect HTTP->HTTPS and
 open to the wide internet [`alb.tf`](alb.tf).
 
 Route53 domain of the loadbalancer is defined in [`dns.tf`](dns.tf).
+
+Applying the infra
+------
+
+First apply everything in the current directory. Only then move to `ecs/`,
+create `terraform.tfvars` and set `domain_name`, `subdomain_name` and
+`env_file_s3_path` the same as in the parent directory.
