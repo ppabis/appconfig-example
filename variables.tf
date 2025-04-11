@@ -21,3 +21,9 @@ variable "image_tag" {
   type        = string
   default     = "01"
 }
+
+variable "secrets_manager_secret_name" {
+  description = "The name of the Secrets Manager secret (useful if some secret is still pending deletion)"
+  type        = string
+  default     = "appconfig_demo_secret"
+}

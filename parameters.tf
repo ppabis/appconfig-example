@@ -1,9 +1,10 @@
-resource "aws_secretsmanager_secret" "ssm_secret_parameter" {
-  name = "appconfig_demo_secret"
+resource "aws_secretsmanager_secret" "secret_parameter" {
+  name = var.secrets_manager_secret_name
+  tags = { Purpose = "appconfig-demo" }
 }
 
-resource "aws_secretsmanager_secret_version" "ssm_secret_parameter_version" {
-  secret_id     = aws_secretsmanager_secret.ssm_secret_parameter.id
+resource "aws_secretsmanager_secret_version" "secret_parameter_version" {
+  secret_id     = aws_secretsmanager_secret.secret_parameter.id
   secret_string = "Secrets Manager 520d58963c1c"
 }
 
