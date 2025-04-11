@@ -39,8 +39,15 @@ async function refreshValues() {
         document.getElementById('secrets_manager_parameter').textContent = data.secrets_manager_parameter;
         document.getElementById('background').textContent = data.background;
         document.getElementById('ff_rotate').textContent = data.ff_rotate;
-        document.getElementById('square').style.backgroundColor = data.background;
         document.getElementById('lastRefresh').firstElementChild.textContent = `Last refreshed: ${data.last_refresh}`;
+
+        // Update the square
+        if (data.ff_rotate) {
+            document.getElementById('square').classList.add('rotating');
+        } else {
+            document.getElementById('square').classList.remove('rotating');
+        }
+        document.getElementById('square').style.backgroundColor = data.background;
     } catch (error) {
         console.error('Error refreshing values:', error);
     } finally {
