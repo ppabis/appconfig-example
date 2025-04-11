@@ -1,5 +1,11 @@
+resource "random_string" "random_string" {
+  length  = 12
+  special = false
+  upper   = false
+}
+
 resource "aws_secretsmanager_secret" "secret_parameter" {
-  name = var.secrets_manager_secret_name
+  name = "sm_secret_${random_string.random_string.result}"
   tags = { Purpose = "appconfig-demo" }
 }
 
@@ -18,12 +24,6 @@ resource "aws_ssm_parameter" "secure_string_parameter" {
   name  = "/appconfig_demo/secure_string_parameter"
   type  = "SecureString"
   value = "Secure String SSM 289b36b3fa03"
-}
-
-resource "random_string" "random_string" {
-  length  = 16
-  special = false
-  upper   = false
 }
 
 resource "aws_s3_bucket" "s3_bucket" {
@@ -54,8 +54,13 @@ data "aws_iam_policy_document" "policy" {
     ]
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/appconfig*"]
+      identifiers = ["*"]
     }
+    condition {
+        test     = "ArnLike"
+        variable = "aws:PrincipalArn"
+        values   = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/appconfig*"]
+      }
   }
 }
 
