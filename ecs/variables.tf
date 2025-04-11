@@ -10,8 +10,8 @@ variable "subdomain_name" {
   default     = "app"
 }
 
-variable "env_file_s3_path" {
-  description = "The path to the environment file in the S3 bucket"
+variable "env_file_s3_arn" {
+  description = "The ARN of the environment file in the S3 bucket"
   type        = string
 }
 
