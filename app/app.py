@@ -21,6 +21,7 @@ async def read_env_variables(request: Request):
     return templates.TemplateResponse(
         "index.html",
         {
+            "request": request,
             "ssm_parameter": ssm_parameter,
             "ssm_secret_parameter": ssm_secret_parameter,
             "s3_env_parameter": s3_env_parameter,
