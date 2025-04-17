@@ -39,7 +39,7 @@ async function refreshValues() {
         document.getElementById('secrets_manager_parameter').textContent = data.secrets_manager_parameter;
         document.getElementById('background').textContent = data.background;
         document.getElementById('ff_rotate').textContent = data.ff_rotate;
-        document.getElementById('ff_rotate_speed').textContent = data.ff_rotate_speed;
+        document.getElementById('ff_rotate_speed').textContent = data['ff_rotate.speed'];
         document.getElementById('lastRefresh').firstElementChild.textContent = `Last refreshed: ${data.last_refresh}`;
 
         // Update the square
