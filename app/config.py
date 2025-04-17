@@ -1,5 +1,4 @@
 import requests, yaml
-
 def get_value(key, default):
     """
     :param key: the key to retrieve from the config. Can be in dot notation to retrieve a nested value.
@@ -33,7 +32,19 @@ def get_config():
             return req.text
     else:
         return f"None, Status code: {req.status_code} {req.text}"
-    
+
+def is_feature_enabled(key, default):
+    ff = get_feature_flag(key, default)    
+    if isinstance(ff, dict) and 'enabled' in ff and ff['enabled'] == True:
+        return True
+    return default
+
+def get_feature_attribute(key, attribute, default):
+    ff = get_feature_flag(key, default)
+    if isinstance(ff, dict) and attribute in ff:
+        return ff[attribute]
+    return default
+
 def get_feature_flag(key, default):
     req = requests.get(f"http://localhost:2772/applications/appconfig-demo/environments/live/configurations/featureflags?flag={key}")
     if req.status_code >= 200 and req.status_code < 300:

@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import os
 from datetime import datetime
-from config import get_value, get_feature_flag
+from config import get_value, is_feature_enabled, get_feature_attribute
 app = FastAPI()
 
 # Mount static files directory
@@ -27,7 +27,8 @@ async def read_env_variables(request: Request):
             "s3_env_parameter": s3_env_parameter,
             "secrets_manager_parameter": secrets_manager_parameter,
             "background": str(get_value("background", "#e3ffe3")),
-            "ff_rotate": bool(get_feature_flag("ff_rotate", False)),
+            "ff_rotate": bool(is_feature_enabled("ff_rotate", False)),
+            "ff_rotate.speed": str(get_feature_attribute("ff_rotate", "speed", 2)),
             "now": datetime.now,
         }
     )
@@ -40,6 +41,7 @@ async def get_env_variables():
         "s3_env_parameter": os.getenv("S3_ENV_PARAMETER", "Not Set"),
         "secrets_manager_parameter": os.getenv("SECRETS_MANAGER_PARAMETER", "Not Set"),
         "background": str(get_value("background", "#e3ffe3")),
-        "ff_rotate": bool(get_feature_flag("ff_rotate", False)),
+        "ff_rotate": bool(is_feature_enabled("ff_rotate", False)),
+        "ff_rotate.speed": str(get_feature_attribute("ff_rotate", "speed", 2)),
         "last_refresh": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     })
